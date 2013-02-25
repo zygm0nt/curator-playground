@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" >
+
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%-15.15t] %-5p %-30.30c{1}:%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="pl.touk">
+        <priority value="DEBUG"/>
+    </category>
+
+    <category name="org.ftang.zookeeping">
+        <priority value="DEBUG"/>
+    </category>
+
+    <category name="pl.touk.p4.hadoop.parse">
+        <priority value="WARN"/>
+    </category>
+
+    <root>
+        <priority value="WARN"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</log4j:configuration>
