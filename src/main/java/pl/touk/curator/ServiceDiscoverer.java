@@ -23,6 +23,7 @@ public class ServiceDiscoverer implements Closeable {
     private static Logger log = Logger.getLogger(ServiceDiscoverer.class);
 
     CuratorFramework curatorFramework;
+    WorkerAdvertiser workerAdvertiser;
 
     public ServiceDiscoverer() {
         curatorFramework = CuratorFrameworkFactory.builder()
@@ -54,12 +55,14 @@ public class ServiceDiscoverer implements Closeable {
     }
 
     public void advertise() {
-        WorkerAdvertiser workerAdvertiser = new WorkerAdvertiser(curatorFramework, getInstanceSerializerFactory(), "app1", "localhost", 2187);
+        workerAdvertiser = new WorkerAdvertiser(curatorFramework, getInstanceSerializerFactory(), "app1", "localhost", 2187);
         workerAdvertiser.advertiseAvailability();
         log.info("advertised...");
     }
 
     public void close() throws IOException {
+        workerAdvertiser.deAdvertiseAvailability();
+        workerAdvertiser.close();
         curatorFramework.close();
     }
 

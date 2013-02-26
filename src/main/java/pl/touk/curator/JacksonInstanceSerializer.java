@@ -2,6 +2,7 @@ package pl.touk.curator;
 
 import com.netflix.curator.x.discovery.ServiceInstance;
 import com.netflix.curator.x.discovery.details.InstanceSerializer;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectReader;
 import org.codehaus.jackson.map.ObjectWriter;
 import org.codehaus.jackson.type.TypeReference;
@@ -16,6 +17,8 @@ final class JacksonInstanceSerializer<T> implements InstanceSerializer<T> {
     private final ObjectWriter objectWriter;
     private final ObjectReader objectReader;
 
+    private static Logger log = Logger.getLogger(JacksonInstanceSerializer.class);
+
     JacksonInstanceSerializer(ObjectReader objectReader, ObjectWriter objectWriter,
                               TypeReference<ServiceInstance<T>> typeRef) {
         this.objectReader = objectReader;
@@ -24,6 +27,9 @@ final class JacksonInstanceSerializer<T> implements InstanceSerializer<T> {
     }
 
     public ServiceInstance<T> deserialize(byte[] bytes) throws Exception {
+        String s = new String(bytes);
+        log.info(s);
+
         return objectReader.withType(typeRef).readValue(bytes);
     }
 

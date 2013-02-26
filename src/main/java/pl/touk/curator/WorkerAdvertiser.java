@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import pl.touk.model.WorkerMetadata;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -44,7 +45,7 @@ public final class WorkerAdvertiser {
             ServiceInstance si = getInstance();
             log.info(si);
             discovery.registerService(si);
-            discovery.close();
+            //discovery.close();
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }
@@ -55,7 +56,7 @@ public final class WorkerAdvertiser {
             ServiceDiscovery<WorkerMetadata> discovery = getDiscovery();
             discovery.start();
             discovery.unregisterService(getInstance());
-            discovery.close();
+            //discovery.close();
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }
@@ -78,5 +79,9 @@ public final class WorkerAdvertiser {
                 .client(curatorFramework)
                 .serializer(jacksonInstanceSerializer)
                 .build();
+    }
+
+    public void close() throws IOException {
+        getDiscovery().close();
     }
 }
