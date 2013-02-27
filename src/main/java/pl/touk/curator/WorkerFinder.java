@@ -3,6 +3,7 @@ package pl.touk.curator;
 import com.google.common.base.Throwables;
 import com.netflix.curator.framework.CuratorFramework;
 import com.netflix.curator.utils.ZKPaths;
+import com.netflix.curator.x.discovery.JsonServiceInstance;
 import com.netflix.curator.x.discovery.ServiceDiscovery;
 import com.netflix.curator.x.discovery.ServiceDiscoveryBuilder;
 import com.netflix.curator.x.discovery.ServiceInstance;
@@ -29,7 +30,7 @@ public final class WorkerFinder {
                 .basePath(ServiceDiscoverer.basePath)
                 .client(curatorFramework)
                 .serializer(instanceSerializerFactory
-                        .getInstanceSerializer(new TypeReference<ServiceInstance<WorkerMetadata>>() {
+                        .getInstanceSerializer(new TypeReference<JsonServiceInstance<WorkerMetadata>>() {
                         }))
                 .build();
 

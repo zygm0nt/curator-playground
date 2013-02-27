@@ -1,7 +1,7 @@
 package pl.touk.curator;
 
 
-import com.netflix.curator.x.discovery.ServiceInstance;
+import com.netflix.curator.x.discovery.JsonServiceInstance;
 import com.netflix.curator.x.discovery.details.InstanceSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
@@ -20,8 +20,10 @@ public class JsonSerializerTest {
     @Test
     public void shouldDeserializeFromString() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         InstanceSerializer serializer = new InstanceSerializerFactory(objectMapper.reader(), objectMapper.writer()).getInstanceSerializer(
-                new TypeReference<ServiceInstance<WorkerMetadata>>() {});
+                new TypeReference<JsonServiceInstance<WorkerMetadata>>() {
+                });
         Object o = serializer.deserialize(input.getBytes());
         o.getClass();
     }

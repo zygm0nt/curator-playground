@@ -2,6 +2,7 @@ package pl.touk.curator;
 
 import com.google.common.base.Throwables;
 import com.netflix.curator.framework.CuratorFramework;
+import com.netflix.curator.x.discovery.JsonServiceInstance;
 import com.netflix.curator.x.discovery.ServiceDiscovery;
 import com.netflix.curator.x.discovery.ServiceDiscoveryBuilder;
 import com.netflix.curator.x.discovery.ServiceInstance;
@@ -31,7 +32,7 @@ public final class WorkerAdvertiser {
                      String serviceName, String listenAddress, int listenPort) {
         this.curatorFramework = curatorFramework;
         this.jacksonInstanceSerializer = instanceSerializerFactory.getInstanceSerializer(
-                new TypeReference<ServiceInstance<WorkerMetadata>>() {}
+                new TypeReference<JsonServiceInstance<WorkerMetadata>>() {}
         );
         this.listenAddress = listenAddress;
         this.listenPort = listenPort;

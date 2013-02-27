@@ -51,6 +51,7 @@ public class ServiceDiscoverer implements Closeable {
 
     private InstanceSerializerFactory getInstanceSerializerFactory() {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(org.codehaus.jackson.map.DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return new InstanceSerializerFactory(objectMapper.reader(), objectMapper.writer());
     }
 
