@@ -8,20 +8,28 @@ import com.netflix.curator.framework.recipes.atomic.DistributedAtomicLong;
 import com.netflix.curator.retry.ExponentialBackoffRetry;
 import org.apache.log4j.Logger;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author mcl
  */
-public class IncrementingRacer {
+public class IncrementingRacer extends BaseExperimentRunner {
 
     private static Logger log = Logger.getLogger(IncrementingRacer.class);
 
     private DistributedAtomicLong distributedAtomicLong;
+
+    @Override
+    protected String getPath() {
+        return "/increment/";
+    }
+
+    @Override
+    protected BaseExperimentRunner instantiate(String zkAddr, String serverId, String path) throws Exception {
+        return new IncrementingRacer(zkAddr, serverId, path);
+    }
+
+    IncrementingRacer() { }
 
     public IncrementingRacer(String connectionString, String serverId, String counterPath) throws InterruptedException {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
@@ -46,32 +54,7 @@ public class IncrementingRacer {
         log.info("Incremented to: " + distributedAtomicLong.get().postValue() + " status: " + distributedAtomicLong.get().getStats());
     }
 
-    public void close() throws IOException {
-
-    }
-
     public static void main(String[] args) throws Exception {
-        List<Thread> threads = new ArrayList();
-
-        final String path = "/increment/" + UUID.randomUUID().toString().split("-")[0];
-        for (int i = 0; i < 3; i++) {
-            final String serverId = "" + i;
-            threads.add(new Thread() {
-                @Override
-                public void run() {
-                    setName("Zk thread " + serverId);
-                    try {
-                        IncrementingRacer ls = new IncrementingRacer("localhost:2187", serverId, path);
-                        ls.process();
-                    } catch (Exception e) {
-                        log.error("Thread error: ", e);
-                    }
-                }
-            });
-            threads.get(i).start();
-        }
-
-        Thread.sleep(50000);
-
+        new IncrementingRacer().run();
     }
 }
