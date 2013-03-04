@@ -7,21 +7,19 @@ import com.netflix.curator.framework.recipes.barriers.DistributedBarrier;
 import com.netflix.curator.retry.ExponentialBackoffRetry;
 import org.apache.log4j.Logger;
 
-import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 /**
  * @author mcl
  */
-public class WaitOnBarrier implements Closeable {
+public class WaitOnBarrier extends BaseExperimentRunner {
 
     private static Logger log = Logger.getLogger(WaitOnBarrier.class);
 
     DistributedBarrier barrier;
+
+    WaitOnBarrier() {}
 
     public WaitOnBarrier(String connectionString, String serverId, String lockPath) throws InterruptedException {
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
@@ -30,6 +28,16 @@ public class WaitOnBarrier implements Closeable {
         client.getZookeeperClient().blockUntilConnectedOrTimedOut();
 
         barrier = new DistributedBarrier(client, lockPath);
+    }
+
+    @Override
+    protected String getPath() {
+        return "/barrier/";
+    }
+
+    @Override
+    protected BaseExperimentRunner instantiate(String zkAddr, String serverId, String path) throws Exception {
+        return new WaitOnBarrier("localhost:2187", serverId, path);
     }
 
     public void process() throws Exception {
@@ -57,25 +65,6 @@ public class WaitOnBarrier implements Closeable {
     }
 
     public static void main(String[] args) throws Exception {
-        List<Thread> threads = new ArrayList();
-
-        final String path = "/barrier/" + UUID.randomUUID().toString().split("-")[0];
-        for (int i = 0; i < 3; i++) {
-            final String serverId = "" + i;
-            threads.add(new Thread() {
-                @Override
-                public void run() {
-                    setName("Zk thread " + serverId);
-                    try {
-                        WaitOnBarrier ls = new WaitOnBarrier("localhost:2187", serverId, path);
-                        ls.process();
-                    } catch (Exception e) {
-                        log.error("Thread error: ", e);
-                    }
-                }
-            });
-            threads.get(i).start();
-        }
-        Thread.sleep(50000);
+        new WaitOnBarrier().run();
     }
 }
