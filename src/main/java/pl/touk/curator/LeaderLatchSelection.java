@@ -8,6 +8,7 @@ import com.netflix.curator.framework.api.CuratorWatcher;
 import com.netflix.curator.framework.recipes.leader.LeaderLatch;
 import com.netflix.curator.framework.recipes.leader.Participant;
 import com.netflix.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.test.TestingServer;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.WatchedEvent;
 import pl.touk.model.ClusterStatus;
@@ -101,11 +102,12 @@ public class LeaderLatchSelection implements Closeable {
 
     public static void main(String[] args) throws Exception {
         List<LeaderLatchSelection> threads = new ArrayList();
+        TestingServer server = new TestingServer();
 
         try {
             for (int i = 0; i < 3; i++) {
                 final String serverId = "" + i;
-                LeaderLatchSelection ls = new LeaderLatchSelection("localhost:2187", serverId);
+                LeaderLatchSelection ls = new LeaderLatchSelection(server.getConnectString(), serverId);
                 threads.add(ls);
 
                 ls.start();

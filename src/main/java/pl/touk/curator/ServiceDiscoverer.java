@@ -1,11 +1,11 @@
 package pl.touk.curator;
 
 import com.google.common.base.Throwables;
-import com.netflix.curator.framework.CuratorFramework;
-import com.netflix.curator.framework.CuratorFrameworkFactory;
-import com.netflix.curator.retry.RetryNTimes;
-import com.netflix.curator.utils.EnsurePath;
-import com.netflix.curator.x.discovery.ServiceInstance;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.RetryNTimes;
+import org.apache.curator.utils.EnsurePath;
+import org.apache.curator.x.discovery.ServiceInstance;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import pl.touk.model.WorkerMetadata;

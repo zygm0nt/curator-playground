@@ -8,6 +8,10 @@
     <artifactId>curator-playground</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
+    <properties>
+        <scala.version>2.10.1</scala.version>
+        <curator.version>2.0.0-incubating</curator.version>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -22,14 +26,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.netflix.curator</groupId>
+            <groupId>org.apache.curator</groupId>
             <artifactId>curator-framework</artifactId>
-            <version>1.3.2</version>
+            <version>${curator.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.netflix.curator</groupId>
+            <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
-            <version>1.3.2</version>
+            <version>${curator.version}</version>
         </dependency>
 
         <dependency>
@@ -39,9 +43,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.netflix.curator</groupId>
+            <groupId>org.apache.curator</groupId>
             <artifactId>curator-x-discovery</artifactId>
-            <version>1.3.2</version>
+            <version>${curator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-test</artifactId>
+            <version>${curator.version}</version>
         </dependency>
 
         <dependency>
@@ -52,5 +62,29 @@
         </dependency>
 
     </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+        <plugins>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

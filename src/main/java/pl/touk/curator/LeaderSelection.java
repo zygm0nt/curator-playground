@@ -8,6 +8,7 @@ import com.netflix.curator.framework.recipes.leader.LeaderSelector;
 import com.netflix.curator.framework.recipes.leader.LeaderSelectorListener;
 import com.netflix.curator.framework.state.ConnectionState;
 import com.netflix.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.test.TestingServer;
 import org.apache.log4j.Logger;
 
 import java.io.Closeable;
@@ -60,13 +61,14 @@ public class LeaderSelection  implements Closeable, LeaderSelectorListener{
         }
     }
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws Exception {
         List<LeaderSelection> threads = new ArrayList();
+        TestingServer server = new TestingServer();
 
         try {
             for (int i = 0; i < 3; i++) {
                 final String serverId = "" + i;
-                LeaderSelection ls = new LeaderSelection("localhost:2187", serverId);
+                LeaderSelection ls = new LeaderSelection(server.getConnectString(), serverId);
                 threads.add(ls);
 
                 ls.start();

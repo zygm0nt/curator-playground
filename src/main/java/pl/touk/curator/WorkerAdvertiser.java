@@ -1,12 +1,12 @@
 package pl.touk.curator;
 
 import com.google.common.base.Throwables;
-import com.netflix.curator.framework.CuratorFramework;
-import com.netflix.curator.x.discovery.JsonServiceInstance;
-import com.netflix.curator.x.discovery.ServiceDiscovery;
-import com.netflix.curator.x.discovery.ServiceDiscoveryBuilder;
-import com.netflix.curator.x.discovery.ServiceInstance;
-import com.netflix.curator.x.discovery.details.InstanceSerializer;
+import org.apache.curator.x.discovery.JsonServiceInstance;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.x.discovery.ServiceDiscovery;
+import org.apache.curator.x.discovery.ServiceDiscoveryBuilder;
+import org.apache.curator.x.discovery.ServiceInstance;
+import org.apache.curator.x.discovery.details.InstanceSerializer;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.type.TypeReference;
 import pl.touk.model.WorkerMetadata;

@@ -1,4 +1,4 @@
-package com.netflix.curator.x.discovery;
+package org.apache.curator.x.discovery;
 
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;

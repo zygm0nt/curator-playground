@@ -1,8 +1,8 @@
 package pl.touk.curator;
 
 
-import com.netflix.curator.x.discovery.JsonServiceInstance;
-import com.netflix.curator.x.discovery.details.InstanceSerializer;
+import org.apache.curator.x.discovery.JsonServiceInstance;
+import org.apache.curator.x.discovery.details.InstanceSerializer;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.junit.Test;
