@@ -1,7 +1,7 @@
 package pl.touk.curator;
 
 import com.google.common.base.Throwables;
-import com.netflix.curator.utils.ZKPaths;
+import org.apache.curator.utils.ZKPaths;
 import org.apache.curator.x.discovery.JsonServiceInstance;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.x.discovery.ServiceDiscovery;

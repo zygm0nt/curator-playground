@@ -1,13 +1,13 @@
 package pl.touk.curator;
 
 import com.google.common.io.Closeables;
-import com.netflix.curator.RetryPolicy;
-import com.netflix.curator.framework.CuratorFramework;
-import com.netflix.curator.framework.CuratorFrameworkFactory;
-import com.netflix.curator.framework.recipes.leader.LeaderSelector;
-import com.netflix.curator.framework.recipes.leader.LeaderSelectorListener;
-import com.netflix.curator.framework.state.ConnectionState;
-import com.netflix.curator.retry.ExponentialBackoffRetry;
+import org.apache.curator.RetryPolicy;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.framework.recipes.leader.LeaderSelector;
+import org.apache.curator.framework.recipes.leader.LeaderSelectorListener;
+import org.apache.curator.framework.state.ConnectionState;
+import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.test.TestingServer;
 import org.apache.log4j.Logger;
 
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * @author mcl
  */
-public class LeaderSelection  implements Closeable, LeaderSelectorListener{
+public class LeaderSelection  implements Closeable, LeaderSelectorListener {
 
     private static Logger log = Logger.getLogger(LeaderSelection.class);
 
